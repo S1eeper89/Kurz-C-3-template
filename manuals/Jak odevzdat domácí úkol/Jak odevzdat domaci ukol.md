@@ -44,7 +44,11 @@ Zde napíšete název, případně komentář. Co je ale důležitejší, může
 
 Následně levý klik na zelené tlačidlo Open pull request a hotovo. Vytvořený Pull Request se objeví na obnovené stránce a vy nám do domácího úkolu jen skopírujete URL adresu vašeho PR.
 
+<<<<<<< HEAD
 ![alt text](Ur                                          l.png)
+=======
+![alt text](Url.png)
+>>>>>>> a0218222ea6abfe37b3741e2e32c7ba7489c82e9
 
 
 ## Proč je to nejlepší způsob odevzdávaní úkolů?
