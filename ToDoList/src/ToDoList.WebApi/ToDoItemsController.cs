@@ -17,7 +17,7 @@ public class ToDoItemsController : ControllerBase
         //try to create an item
         try
         {
-            item.ToDoItemId = items.Count == 0 ? 1 : items.Max(o => o.ToDoItemId) + 1;
+            item.Id = items.Count == 0 ? 1 : items.Max(o => o.Id) + 1;
             items.Add(item);
         }
         catch (Exception ex)
@@ -38,7 +38,7 @@ public class ToDoItemsController : ControllerBase
     {
         try
         {
-            var item = items.Find(x => x.ToDoItemId == toDoItemId);
+            var item = items.Find(x => x.Id == toDoItemId);
 
             if (item == null)
                 return NotFound(); //404
@@ -57,7 +57,7 @@ public class ToDoItemsController : ControllerBase
     {
         try
         {
-            var index = items.FindIndex(x => x.ToDoItemId == toDoItemId);
+            var index = items.FindIndex(x => x.Id == toDoItemId);
             if (index == -1)
                 return NotFound(); //404
 
@@ -76,7 +76,7 @@ public class ToDoItemsController : ControllerBase
     {
         try
         {
-            var item = items.Find(x => x.ToDoItemId == toDoItemId);
+            var item = items.Find(x => x.Id == toDoItemId);
             if (item == null)
                 return NotFound(); //404
 
