@@ -31,8 +31,25 @@ public class ToDoItemsController : ControllerBase
     [HttpGet]
     public IActionResult Read() //api/ToDoItems GET
     {
-        return Ok();
+        try
+        {
+            // Ověříme, jestli seznam není prázdný
+            if (items == null || !items.Any())
+                return NotFound(); // 404 pokud žádné úkoly nejsou
+
+            // Převedeme seznam ToDoItem na DTO
+            var result = items
+                .Select(ToDoItemGetResponseDto.FromDomain)
+                .ToList();
+
+            return Ok(result); // 200 OK s daty
+        }
+    catch (Exception ex)
+    {
+        // 500 Internal Server Error při výjimce
+        return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);
     }
+}
     [HttpGet("{toDoItemId:int}")]
     public IActionResult ReadById(int toDoItemId) //api/ToDoItems
     {
