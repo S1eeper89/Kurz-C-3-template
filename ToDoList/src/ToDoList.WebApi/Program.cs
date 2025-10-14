@@ -6,7 +6,12 @@ var builder = WebApplication.CreateBuilder(args);
 var app = builder.Build();
 {
     //Configure Middleware (HTTP request pipeline)
-    app.MapControllers(); ;
+    app.MapControllers();
+    ;
 }
+
+app.MapGet("/", () => "Hello World");
+
+app.MapGet("/nazdarSvete", () => "Ahoj Svete");
 
 app.Run();
