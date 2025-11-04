@@ -7,7 +7,9 @@ using ToDoList.Domain.Models;
 [ApiController]
 public class ToDoItemsController : ControllerBase
 {
-    public static List<ToDoItem> items = [];
+    public static List<ToDoItem> Items = [];
+    public object items;
+
     [HttpPost]
     public IActionResult Create(ToDoItemCreateRequestDto request)
     {
@@ -17,8 +19,8 @@ public class ToDoItemsController : ControllerBase
         //try to create an item
         try
         {
-            item.ToDoItemId = items.Count == 0 ? 1 : items.Max(o => o.ToDoItemId) + 1;
-            items.Add(item);
+            item.ToDoItemId = Items.Count == 0 ? 1 : Items.Max(o => o.ToDoItemId) + 1;
+            Items.Add(item);
         }
         catch (Exception ex)
         {
@@ -28,7 +30,7 @@ public class ToDoItemsController : ControllerBase
         //respond to client
         return Created(); //201 //tato metoda z nějakého důvodu vrací status code No Content 204, zjištujeme proč ;)
     }
-    [HttpGet]
+
     //     public IActionResult Read() //api/ToDoItems GET
     //     {
     //         try
@@ -50,12 +52,13 @@ public class ToDoItemsController : ControllerBase
     //         return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);
     //     }
     // }
+    [HttpGet]
     public ActionResult<IEnumerable<ToDoItemGetResponseDto>> Read()
     {
         List<ToDoItem> itemsToGet;
         try
         {
-            itemsToGet = items;
+            itemsToGet = Items;
         }
         catch (Exception ex)
         {
@@ -73,10 +76,12 @@ public class ToDoItemsController : ControllerBase
     {
         try
         {
-            var item = items.Find(x => x.ToDoItemId == toDoItemId);
+            var item = Items.Find(x => x.ToDoItemId == toDoItemId);
 
             if (item == null)
+            {
                 return NotFound(); //404
+            }
 
             var result = ToDoItemGetResponseDto.FromDomain(item);
             return Ok(result); //200
@@ -87,7 +92,7 @@ public class ToDoItemsController : ControllerBase
         }
 
     }
-     [HttpPut("{toDoItemId:int}")]
+    [HttpPut("{toDoItemId:int}")]
     public IActionResult UpdateById(int toDoItemId, [FromBody] ToDoItemUpdateRequestDto request)
     {
         //map to Domain object as soon as possible
@@ -97,13 +102,13 @@ public class ToDoItemsController : ControllerBase
         try
         {
             //retrieve the item
-            var itemIndexToUpdate = items.FindIndex(i => i.ToDoItemId == toDoItemId);
+            var itemIndexToUpdate = Items.FindIndex(i => i.ToDoItemId == toDoItemId);
             if (itemIndexToUpdate == -1)
             {
                 return NotFound(); //404
             }
             updatedItem.ToDoItemId = toDoItemId;
-            items[itemIndexToUpdate] = updatedItem;
+            Items[itemIndexToUpdate] = updatedItem;
         }
         catch (Exception ex)
         {
@@ -118,11 +123,13 @@ public class ToDoItemsController : ControllerBase
     {
         try
         {
-            var item = items.Find(x => x.ToDoItemId == toDoItemId);
+            var item = Items.Find(x => x.ToDoItemId == toDoItemId);
             if (item == null)
+            {
                 return NotFound(); //404
+            }
 
-            items.Remove(item);
+            Items.Remove(item);
             return NoContent(); //204
         }
         catch (Exception ex)
@@ -131,10 +138,7 @@ public class ToDoItemsController : ControllerBase
         }
     }
 
-    public void AddItemToStorage(ToDoItem item)
-    {
-        items.Add(item);
-    }
+    public void AddItemToStorage(ToDoItem item) => Items.Add(item);
 }
 
 
