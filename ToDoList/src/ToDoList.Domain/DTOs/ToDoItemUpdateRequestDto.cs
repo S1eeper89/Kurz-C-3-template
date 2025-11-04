@@ -3,8 +3,9 @@ using ToDoList.Domain.Models;
 
 namespace ToDoList.Domain.DTOs;
 
-public class ToDoItemUpdateRequestDto(string Name, string Description, bool IsCompleted)
+using ToDoList.Domain.Models;
+
+public record ToDoItemUpdateRequestDto(string Name, string Description, bool IsCompleted)
 {
-    public ToDoItem ToDomain(int id) =>
-        new() { Id = id, Name = Name, Description = Description, IsCompleted = IsCompleted };
+    public ToDoItem ToDomain(int toDoItemId) => new() { ToDoItemId = toDoItemId, Name = Name, Description = Description, IsCompleted = IsCompleted };
 }
