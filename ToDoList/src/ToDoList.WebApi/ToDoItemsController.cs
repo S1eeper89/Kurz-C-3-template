@@ -7,7 +7,7 @@ using ToDoList.Domain.Models;
 [ApiController]
 public class ToDoItemsController : ControllerBase
 {
-    private static List<ToDoItem> items = [];
+    public static List<ToDoItem> items = [];
     [HttpPost]
     public IActionResult Create(ToDoItemCreateRequestDto request)
     {
@@ -104,5 +104,10 @@ public class ToDoItemsController : ControllerBase
         {
             return Problem(ex.Message, null, StatusCodes.Status500InternalServerError);
         }
+    }
+
+    public void AddItemToStorage(ToDoItem item)
+    {
+        items.Add(item);
     }
 }
